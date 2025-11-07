@@ -19,44 +19,6 @@ O sistema foi projetado para ser:
 
 ---
 
-## 🧩 Arquitetura
-
-```
-
-pdf-extractor/
-├── app/
-│   ├── extractor/
-│   │   ├── cache.py
-│   │   ├── heuristics.py
-│   │   ├── llm.py
-│   │   ├── pipeline.py
-│   │   └── preprocess.py
-│   ├── tests/
-│   │   ├── test_heuristics.py
-│   │   ├── test_llm.py
-│   │   ├── test_pipeline.py
-│   │   └── test_preprocess.py
-│   └── main.py
-│
-├── frontend/
-│   ├── src/
-│   │   ├── components/
-│   │   ├── pages/
-│   │   ├── App.tsx
-│   │   └── main.tsx
-│   ├── public/
-│   │   └── favicon.png
-│   └── index.html
-│
-├── requirements.txt
-├── .env
-├── .gitignore
-└── README.md
-
-````
-
----
-
 ## ⚙️ Funcionalidades Principais
 
 ### 🧾 Extração de Dados
@@ -189,12 +151,12 @@ test_preprocess.py::test_extract_words_with_boxes PASSED
 
 ```mermaid
 flowchart LR
-A[PDF Upload] --> B[Preprocess - OCR + Tokens]
-B --> C[Heuristics - Regex / Pattern]
-C -->|Confidence < 0.6| D[LLM (GPT-5-mini)]
-C -->|Confidence >= 0.6| E[Cache Store]
-D --> E[Cache Store]
-E --> F[Response + Metrics]
+    A[📄 PDF Upload] --> B[🔍 Preprocess - OCR e Tokens]
+    B --> C[⚙️ Heurísticas - Regex e Padrões]
+    C -->|Confiança menor que 0.6| D[🧠 LLM GPT-5-mini]
+    C -->|Confiança maior ou igual a 0.6| E[💾 Cache Local]
+    D --> E
+    E --> F[📊 Resposta e Métricas]
 ```
 
 ---

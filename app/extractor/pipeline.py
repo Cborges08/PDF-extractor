@@ -17,12 +17,10 @@ cache = SessionCache(maxsize=512)
 def extract_from_pdf(label: str, schema: dict, pdf_bytes: bytes):
     start_total = time.time()
 
-    # 1️⃣ Extração inicial (OCR)
     metrics.start("preprocess")
     words, full_text = extract_words_with_boxes(pdf_bytes)
     metrics.stop("preprocess")
 
-    # 2️⃣ Cache (baseado no texto OCR, label e schema)
     text_hash = hashlib.sha256(full_text.encode()).hexdigest()
     cache_key = (text_hash, label, json.dumps(schema, sort_keys=True))
 
@@ -34,7 +32,6 @@ def extract_from_pdf(label: str, schema: dict, pdf_bytes: bytes):
     output = {}
     meta = {}
 
-    # 3️⃣ Loop de extração
     for field_name, description in schema.items():
         metrics.start("heuristics")
         value, confidence, method = extract_field_via_heuristics(words, full_text, field_name, description)
@@ -66,7 +63,6 @@ def extract_from_pdf(label: str, schema: dict, pdf_bytes: bytes):
         output[field_name] = value
         meta[field_name] = {"confidence": confidence, "method": method}
 
-    # 4️⃣ Finalização
     elapsed = round(time.time() - start_total, 2)
     metrics.record("requests_total", 1)
     metrics.record("latency_total", elapsed)

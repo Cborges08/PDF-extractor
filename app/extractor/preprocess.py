@@ -1,4 +1,3 @@
-# app/extractor/preprocess.py
 import fitz  # PyMuPDF
 
 def extract_words_with_boxes(pdf_bytes: bytes):
